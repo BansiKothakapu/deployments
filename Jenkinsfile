@@ -1,18 +1,25 @@
 pipeline {
     agent any
-    
+    environment {
+        PROJECT_ID = 'practical-robot-443613-d1'
+        CLUSTER_NAME = 'cluster-1'
+        REGION = 'us-central1-c'
+        CREDENTIALS_JSON = '/var/lib/jenkins/gke_key.json'
+    }
     stages {
-                
-        stage('Deploy Nginx to GKE') {
+        stage('Authenticate with GKE') {
             steps {
-                sh 'kubectl apply -f nginx-deployment.yaml'
+                sh '''
+                gcloud auth activate-service-account --key-file=$CREDENTIALS_JSON
+                gcloud config set project $PROJECT_ID
+                gcloud container clusters get-credentials $CLUSTER_NAME --region $REGION
+                '''
             }
         }
 
-        stage('Verify Deployment') {
+        stage('Deploy to GKE') {
             steps {
-                sh 'kubectl get pods'
-                sh 'kubectl get svc'
+                sh 'kubectl apply -f nginx-deployment.yaml'
             }
         }
     }
