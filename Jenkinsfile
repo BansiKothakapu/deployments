@@ -4,7 +4,7 @@ pipeline {
         PROJECT_ID = 'practical-robot-443613-d1'
         CLUSTER_NAME = 'cluster-1'
         REGION = 'us-central1-c'
-        CREDENTIALS_JSON = '/root/key.json'
+        CREDENTIALS_JSON = '/var/lib/jenkins/key.json'
     }
     stages {
         stage('Authenticate with GKE') {
