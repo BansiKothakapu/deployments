@@ -19,7 +19,7 @@ pipeline {
 
         stage('Deploy to GKE') {
             steps {
-                sh 'kubectl apply -f nginx-deployment.yaml'
+                sh 'kubectl apply -f nginx-service.yaml'
             }
         }
     }
